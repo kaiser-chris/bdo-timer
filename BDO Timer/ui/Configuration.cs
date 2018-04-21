@@ -21,8 +21,6 @@ namespace Timer
         {
             Hide();
             ContextMenu trayMenu = new ContextMenu();
-            trayMenu.MenuItems.Add("Open Settings", MenuOpenConfig);
-            trayMenu.MenuItems.Add("-");
             trayMenu.MenuItems.Add("Close Application", MenuExit);
             trayIcon.ContextMenu = trayMenu;
             
@@ -42,12 +40,6 @@ namespace Timer
         private void MenuExit(object sender, EventArgs e)
         {
             Close();
-        }
-
-        private void TrayIcon_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            Show();
-            WindowState = FormWindowState.Normal;
         }
 
         private string BuildGameTimeString()
