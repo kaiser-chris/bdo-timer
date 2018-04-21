@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace BDO_Timer.Properties
+namespace Timer.Properties
 {
 
 
