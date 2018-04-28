@@ -28,7 +28,7 @@ namespace Timer
             timerDailyReset.Enabled = true;
 
             timerNight.Interval = CalculateSecondsUntilNight() * 1000;
-            timerDailyReset.Enabled = true;
+            timerNight.Enabled = true;
         }
 
         private void MenuOpenConfig(object sender, EventArgs e)
@@ -62,7 +62,15 @@ namespace Timer
 
         private void TrayIcon_Click(object sender, EventArgs e)
         {
-            string message = String.Format("Time: {0}\nNight in: {1}", BuildGameTimeString(), BuildNightTimeString());
+            string message;
+            if (IsNight())
+            {
+                message = String.Format("Time: {0}\nCurrently Night", BuildGameTimeString());
+            }
+            else
+            {
+                message = String.Format("Time: {0}\nNight in: {1}", BuildGameTimeString(), BuildNightTimeString());
+            }
             SendToolTip(message);
         }
 
@@ -75,7 +83,7 @@ namespace Timer
         private void TimerNight_Tick(object sender, EventArgs e)
         {
             SendToolTip("Now it is Night");
-            timerDailyReset.Interval = CalculateSecondsUntilNight() * 1000;
+            timerNight.Interval = CalculateSecondsUntilNight() * 1000;
         }
 
         private void SendToolTip(string message)
@@ -84,6 +92,11 @@ namespace Timer
         }
 
         #region Calculations
+
+        private bool IsNight()
+        {
+            return CalculateSecondsIntoGameDay() >= 12000;
+        }
 
         private double CalculateElapsedSeconds()
         {
@@ -97,7 +110,7 @@ namespace Timer
 
         private int CalculateSecondsUntilNight()
         {
-            if (CalculateSecondsIntoGameDay() >= 12000)
+            if (IsNight())
             {
                 return 2400 - ((int)CalculateSecondsIntoGameDay() - 12000) + 12000;
             }
